@@ -17,8 +17,11 @@ const slides = [
 	}
 ]
 
+function printOnConsole() {
+	return console.log("Hello!");
+};
 const leftArrow = document.querySelector(".arrow_left");
-leftArrow.addEventListener('click', console.log("bob"));
+leftArrow.addEventListener('click', printOnConsole);
 
 const rightArrow = document.querySelector(".arrow_right");
-rightArrow.addEventListener('click', alert("hello"));
+rightArrow.addEventListener('click', printOnConsole);
