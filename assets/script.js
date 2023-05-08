@@ -17,24 +17,71 @@ const slides = [
 	}
 ];
 
-const dots = document.querySelector(".dots");
-for (let i = 0; i < slides.length; i++) {
-	const dot = document.createElement("span");
-	dot.classList.add("dot");
-	dots.appendChild(dot);
-	console.log(slides.length);
-};
-
-
-
-function printLeft() {
-	return console.log("Hello!");
-};
-function printRight() {
-	return console.log("How are you?");
-};
 const leftArrow = document.querySelector(".arrow_left");
-leftArrow.addEventListener('click', printLeft);
+leftArrow.addEventListener('click', changeSlide);
 
 const rightArrow = document.querySelector(".arrow_right");
-rightArrow.addEventListener('click', printRight);
+rightArrow.addEventListener('click', changeSlide );
+
+const dots = document.querySelector(".dots");
+
+const slide = document.querySelector(".banner-img");
+let slideSource = slide.getAttribute("src");
+
+for (let i in slides) {
+	const j = parseInt(i) + 1;
+	const dot = document.createElement("span");
+	dot.classList.add("dot");
+	dot.classList.add("dot"+ j);
+	dots.appendChild(dot);
+	const slideNumber = slideSource.charAt(slideSource.length-5);
+	const newDotSelected = document.querySelector(`.dot${slideNumber}`);
+	newDotSelected.classList.add("dot_selected");
+};
+
+function previousImage() {
+	
+	let slideNumber = slideSource.charAt(slideSource.length-5);
+	let m;
+	if (slideNumber == 1) {
+		m = slides.length;
+	}else{
+		m = parseInt(slideNumber) - 1;
+	};
+
+	slideSource = slideSource.replace(slideNumber, m);
+	slide.setAttribute("src", slideSource);
+};
+
+
+function nextImage() {
+	
+	let slideNumber = slideSource.charAt(slideSource.length-5);
+	let m;
+	if (slideNumber == slides.length) {
+		m = 1;
+		console.log(m);
+	}else{
+		m = parseInt(slideNumber) + 1;
+		console.log(m);	
+	};
+	slideSource = slideSource.replace(slideNumber, m);
+	slide.setAttribute("src", slideSource);
+};
+
+function changeDotSelection() {
+	const dotSelected = document.querySelector(".dot_selected");
+	dotSelected.classList.remove("dot_selected");
+	const slideNumber = slideSource.charAt(slideSource.length-5);
+	const newDotSelected = document.querySelector(`.dot${slideNumber}`);
+	newDotSelected.classList.add("dot_selected");
+};
+
+function changeSlide() {
+	if (this.classList.contains("arrow_left")) {
+		previousImage();
+	} else {
+		nextImage();
+	};
+	changeDotSelection();
+};
