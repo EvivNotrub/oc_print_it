@@ -49,8 +49,9 @@ function previousImage() {
 		m = parseInt(slideNumber) - 1;
 	};
 
-	slideSource = slideSource.replace(slideNumber, m);
+	slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
 	slide.setAttribute("src", slideSource);
+	slide.setAttribute("alt", slides[m-1].tagLine);
 };
 
 
@@ -65,8 +66,9 @@ function nextImage() {
 		m = parseInt(slideNumber) + 1;
 		console.log(m);	
 	};
-	slideSource = slideSource.replace(slideNumber, m);
+	slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
 	slide.setAttribute("src", slideSource);
+	slide.setAttribute("alt", slides[m-1].tagLine);
 };
 
 function changeDotSelection() {
