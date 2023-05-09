@@ -1,3 +1,6 @@
+// it is important here to keap the slide number at the end of the image name
+// and DO NOT include a number other than the slide number in the 9 last characters 
+// of the image name including the extension.
 const slides = [
 	{
 		"image":"slide1.jpg",
@@ -28,25 +31,28 @@ const dots = document.querySelector(".dots");
 const slide = document.querySelector(".banner-img");
 let slideSource = slide.getAttribute("src");
 
+// here we create the dots with a class for styling all and a specific class for each dot
 for (let i in slides) {
 	const j = parseInt(i) + 1;
 	const dot = document.createElement("span");
 	dot.classList.add("dot");
 	dot.classList.add("dot"+ j);
 	dots.appendChild(dot);
-	const slideNumber = slideSource.charAt(slideSource.length-5);
+	// here we get the current slide number to add some style on the corresponding dot
+	const slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
 	const newDotSelected = document.querySelector(`.dot${slideNumber}`);
 	newDotSelected.classList.add("dot_selected");
 };
 
+
 function previousImage() {
 	
-	let slideNumber = slideSource.charAt(slideSource.length-5);
+	let slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
 	let m;
 	if (slideNumber == 1) {
 		m = slides.length;
 	}else{
-		m = parseInt(slideNumber) - 1;
+		m = slideNumber - 1;
 	};
 
 	slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
@@ -57,14 +63,12 @@ function previousImage() {
 
 function nextImage() {
 	
-	let slideNumber = slideSource.charAt(slideSource.length-5);
+	let slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
 	let m;
 	if (slideNumber == slides.length) {
 		m = 1;
-		console.log(m);
 	}else{
-		m = parseInt(slideNumber) + 1;
-		console.log(m);	
+		m = slideNumber + 1;
 	};
 	slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
 	slide.setAttribute("src", slideSource);
@@ -74,7 +78,7 @@ function nextImage() {
 function changeDotSelection() {
 	const dotSelected = document.querySelector(".dot_selected");
 	dotSelected.classList.remove("dot_selected");
-	const slideNumber = slideSource.charAt(slideSource.length-5);
+	const slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
 	const newDotSelected = document.querySelector(`.dot${slideNumber}`);
 	newDotSelected.classList.add("dot_selected");
 };
