@@ -66,34 +66,31 @@
 		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
 	}
 ];
-let slideSource, slide;
+const slide = document.querySelector(".banner-img");
+let slideSource = slide.getAttribute("src");
 
 function changeDotSelection() {
-	// here we remove the class "dot_selected" from the current dot
+	// here we remove the class "dot_selected" from the current dot if available
 	let dotSelected = document.querySelector(".dot_selected");
-	console.log(dotSelected);
 	dotSelected = dotSelected != null ? (dotSelected.classList.remove("dot_selected")) : 1;
-		console.log(dotSelected);
 	// and extract the slide number to add the selected class to the corresponding dot
 	const slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
 	const newDotSelected = document.querySelector(`.dot${slideNumber}`);
 	newDotSelected.classList.add("dot_selected");
-};
+}
 
 function main() {
 
 	const leftArrow = document.querySelector(".arrow_left");
-	leftArrow.addEventListener('click', changeSlideSource("left"));
+	leftArrow.addEventListener('click', changeSlideSource);
 
 	const rightArrow = document.querySelector(".arrow_right");
-	rightArrow.addEventListener('click', changeSlideSource("right"));
+	rightArrow.addEventListener('click', changeSlideSource);
 
 	const dots = document.querySelector(".dots");
-	// here we get the current slide source
-	slide = document.querySelector(".banner-img");
+	// below we get the current slide source
 	slideSource = slide.getAttribute("src");
-
-	// here we create the dots with a class to give them all style
+	// below we create the dots with a class to give them all style
 	// and a specific class for each dot with a number to select them
 	// and we give the image-corresponding dot the class "dot_selected" to style it 
 	for (let i in slides) {
@@ -102,27 +99,27 @@ function main() {
 		dot.classList.add("dot");
 		dot.classList.add("dot"+ j);
 		dots.appendChild(dot);
-		// here we get the current slide number to add some style on the corresponding dot
-		changeDotSelection();
 	}
+	// here we get the current slide number to add some style on the corresponding dot
+	changeDotSelection();
 }
 
-function changeSlideSource(direction) {
-	let slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
-	if (direction == "left"){
-		let m = slideNumber == 1 ? (slides.length) : (slideNumber - 1);
+function changeSlideSource() {
+	let m, slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
+	if (this.classList.contains("arrow_left")){
+		m = slideNumber == 1 ? (slides.length) : (slideNumber - 1);
 	}else{
-		let m = slideNumber == slides.length ? (1) : (slideNumber +1);
+		m = slideNumber == slides.length ? (1) : (slideNumber +1);
 	}
 	slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
  	slide.setAttribute("src", slideSource);
 	slide.setAttribute("alt", slides[m-1].tagLine);
 	changeDotSelection();
 }
-function previousImage() {
+// function previousImage() {
 	//here we extract the slide number from the image source
 /*let slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));*/
-	let m = slideNumber == 1 ? (slides.length) : (slideNumber - 1);
+	// let m = slideNumber == 1 ? (slides.length) : (slideNumber - 1);
 // if (slideNumber == 1) {
 // 	m = slides.length;
 // }else{
@@ -132,13 +129,13 @@ function previousImage() {
 // slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
 // slide.setAttribute("src", slideSource);
 // slide.setAttribute("alt", slides[m-1].tagLine);
-}
+// }
 
 
-function nextImage() {
+// function nextImage() {
 	//here we extract the slide number from the image source
 /* let slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));*/
-	let m = slideNumber == slides.length ? (1) : (slideNumber +1);
+	// let m = slideNumber == slides.length ? (1) : (slideNumber +1);
 // if (slideNumber == slides.length) {
 // 	m = 1;
 // }else{
@@ -148,17 +145,17 @@ function nextImage() {
 // slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
 // slide.setAttribute("src", slideSource);
 // slide.setAttribute("alt", slides[m-1].tagLine);
-}
+// }
 
-function changeSlide() {
+// function changeSlide() {
 	
-	if (this.classList.contains("arrow_left")) {
-		previousImage();
-	} else {
-		nextImage();
-	};
-	// here the dot selection should be done AFTER the image change!!
-	changeDotSelection();
-}
+// 	if (this.classList.contains("arrow_left")) {
+// 		previousImage();
+// 	} else {
+// 		nextImage();
+// 	};
+// 	// here the dot selection should be done AFTER the image change!!
+// 	changeDotSelection();
+// }
 
 main();
