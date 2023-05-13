@@ -1,3 +1,7 @@
+// it is important here to keap the slide number at the end of the image name
+// and DO NOT include a number other than the slide number in the 9 last characters 
+// of the image name including the extension. The string under slides[].image
+// should be the SAME as the image name in the assets folder.
 const slides = [
 	{
 		"image":"slide1.jpg",
