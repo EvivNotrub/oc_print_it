@@ -21,14 +21,16 @@ const slides = [
 	}
 ];
 const slide = document.querySelector(".banner-img");
-let slideSource = slide.getAttribute("src");
-
+let slideNumber, slideSource = slide.getAttribute("src");
+function getSlideNumber() {
+	slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
+}
 function changeDotSelection() {
 	// here we remove the class "dot_selected" from the current dot if available
 	let dotSelected = document.querySelector(".dot_selected");
 	dotSelected = dotSelected != null ? (dotSelected.classList.remove("dot_selected")) : 1;
 	// and extract the slide number to add the selected class to the corresponding dot
-	const slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
+	getSlideNumber();
 	const newDotSelected = document.querySelector(`.dot${slideNumber}`);
 	newDotSelected.classList.add("dot_selected");
 }
@@ -61,7 +63,8 @@ function main() {
 
 function changeSlideSource(direction) {
 	console.log(direction);
-	let m, slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
+	let m;
+	getSlideNumber();
 	if (direction == "left"){
 		m = slideNumber == 1 ? (slides.length) : (slideNumber - 1);
 	}else{
