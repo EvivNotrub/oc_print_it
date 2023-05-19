@@ -21,17 +21,20 @@ const slides = [
 	}
 ];
 // this is the function to get OR change the slide-source-number
-let slideNumber;
-function slideEndNumber(method = "get", m) {
-	const slide = document.querySelector(".banner-img");
-	let slideSource = slide.getAttribute("src");
-	if(method == "get"){
-		return parseInt((slideSource.slice(-9)).match(/\d+/g));
-	}else if(method == "change"){
-		slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
-		slide.setAttribute("src", slideSource);
-	   	slide.setAttribute("alt", slides[m-1].tagLine); 
-	}
+let slideNumber, slide;
+function getSlideSource() {
+	slide = document.querySelector(".banner-img");
+	return slide.getAttribute("src");
+}
+function getSlideEndNumber() {
+	let slideSource = getSlideSource();
+	return parseInt((slideSource.slice(-9)).match(/\d+/g));
+}
+function changeSlideInfo(m) {
+	let slideSource = getSlideSource();
+	slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
+	slide.setAttribute("src", slideSource);
+	slide.setAttribute("alt", slides[m-1].tagLine); 
 }
 
 function changeDotSelection() {
@@ -39,7 +42,7 @@ function changeDotSelection() {
 	let dotSelected = document.querySelector(".dot_selected");
 	dotSelected = dotSelected != null ? (dotSelected.classList.remove("dot_selected")) : 1;
 	// and extract the slide number to add the selected class to the corresponding dot
-	slideNumber = slideEndNumber();
+	slideNumber = getSlideEndNumber();
 	const newDotSelected = document.querySelector(`.dot${slideNumber}`);
 	newDotSelected.classList.add("dot_selected");
 }
@@ -72,13 +75,13 @@ function main() {
 function changeSlideSource(direction) {
 	console.log(direction);
 	let m;
-	slideNumber = slideEndNumber();
+	slideNumber = getSlideEndNumber();
 	if (direction == "left"){
 		m = slideNumber == 1 ? (slides.length) : (slideNumber - 1);
 	}else{
 		m = slideNumber == slides.length ? (1) : (slideNumber + 1);
 	}
-	slideEndNumber("change", m);
+	changeSlideInfo(m);
 	changeDotSelection();
 }
 
