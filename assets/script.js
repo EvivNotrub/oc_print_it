@@ -70,7 +70,6 @@ function main() {
 }
 
 function changeSlideSource(direction) {
-	console.log(direction);
 	let m;
 	slideNumber = slideEndNumber();
 	if (direction == "left"){
