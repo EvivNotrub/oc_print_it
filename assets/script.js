@@ -1,4 +1,4 @@
-// it is important here to keap the slide number at the end of the image name
+// it is important here to KEAP the slide number at the end of the image name
 // and DO NOT include a number other than the slide number in the 9 last characters 
 // of the image name including the extension. The string under slides[].image
 // should be the SAME as the image name in the assets folder.
@@ -20,11 +20,7 @@ const slides = [
 		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
 	}
 ];
-// const slide = document.querySelector(".banner-img");
-// let slideNumber, slideSource = slide.getAttribute("src");
-// function slideEndNumber() {
-// 	return parseInt((slideSource.slice(-9)).match(/\d+/g));
-// }
+// this is the function to get OR change the slide-source-number
 let slideNumber;
 function slideEndNumber(method = "get", m) {
 	const slide = document.querySelector(".banner-img");
@@ -37,9 +33,7 @@ function slideEndNumber(method = "get", m) {
 	   	slide.setAttribute("alt", slides[m-1].tagLine); 
 	}
 }
-// function slideSource(){
 
-// }
 function changeDotSelection() {
 	// here we remove the class "dot_selected" from the current dot if available
 	let dotSelected = document.querySelector(".dot_selected");
@@ -60,9 +54,7 @@ function main() {
 	rightArrow.addEventListener('click', changeSlideSource);
 
 	const dots = document.querySelector(".dots");
-	// below we get the current slide source
-	// slideSource = slide.getAttribute("src");
-	// console.log(slideSource + " Main pour les dots");
+
 	// below we create the dots with a class to give them all style
 	// and a specific class for each dot with a number to select them
 	// and we give the image-corresponding dot the class "dot_selected" to style it 
@@ -80,7 +72,7 @@ function main() {
 function changeSlideSource(direction) {
 	console.log(direction);
 	let m;
-	slideNumber = slideEndNumber("get");
+	slideNumber = slideEndNumber();
 	if (direction == "left"){
 		m = slideNumber == 1 ? (slides.length) : (slideNumber - 1);
 	}else{
