@@ -21,17 +21,13 @@ const slides = [
 	}
 ];
 // this is the function to get OR change the slide-source-number
-let slideNumber, slide;
-function getSlideSource() {
-	slide = document.querySelector(".banner-img");
-	return slide.getAttribute("src");
-}
+const slide = document.querySelector(".banner-img");
+let slideNumber, slideSource = slide.getAttribute("src");
+
 function getSlideEndNumber() {
-	let slideSource = getSlideSource();
 	return parseInt((slideSource.slice(-9)).match(/\d+/g));
 }
 function changeSlideInfo(m) {
-	let slideSource = getSlideSource();
 	slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
 	slide.setAttribute("src", slideSource);
 	slide.setAttribute("alt", slides[m-1].tagLine); 
