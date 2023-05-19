@@ -20,17 +20,32 @@ const slides = [
 		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
 	}
 ];
-const slide = document.querySelector(".banner-img");
-let slideNumber, slideSource = slide.getAttribute("src");
-function getSlideNumber() {
-	slideNumber = parseInt((slideSource.slice(-9)).match(/\d+/g));
+// const slide = document.querySelector(".banner-img");
+// let slideNumber, slideSource = slide.getAttribute("src");
+// function slideEndNumber() {
+// 	return parseInt((slideSource.slice(-9)).match(/\d+/g));
+// }
+let slideNumber;
+function slideEndNumber(method = "get", m) {
+	const slide = document.querySelector(".banner-img");
+	let slideSource = slide.getAttribute("src");
+	if(method == "get"){
+		return parseInt((slideSource.slice(-9)).match(/\d+/g));
+	}else if(method == "change"){
+		slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
+		slide.setAttribute("src", slideSource);
+	   	slide.setAttribute("alt", slides[m-1].tagLine); 
+	}
 }
+// function slideSource(){
+
+// }
 function changeDotSelection() {
 	// here we remove the class "dot_selected" from the current dot if available
 	let dotSelected = document.querySelector(".dot_selected");
 	dotSelected = dotSelected != null ? (dotSelected.classList.remove("dot_selected")) : 1;
 	// and extract the slide number to add the selected class to the corresponding dot
-	getSlideNumber();
+	slideNumber = slideEndNumber();
 	const newDotSelected = document.querySelector(`.dot${slideNumber}`);
 	newDotSelected.classList.add("dot_selected");
 }
@@ -46,7 +61,8 @@ function main() {
 
 	const dots = document.querySelector(".dots");
 	// below we get the current slide source
-	slideSource = slide.getAttribute("src");
+	// slideSource = slide.getAttribute("src");
+	// console.log(slideSource + " Main pour les dots");
 	// below we create the dots with a class to give them all style
 	// and a specific class for each dot with a number to select them
 	// and we give the image-corresponding dot the class "dot_selected" to style it 
@@ -64,15 +80,13 @@ function main() {
 function changeSlideSource(direction) {
 	console.log(direction);
 	let m;
-	getSlideNumber();
+	slideNumber = slideEndNumber("get");
 	if (direction == "left"){
 		m = slideNumber == 1 ? (slides.length) : (slideNumber - 1);
 	}else{
-		m = slideNumber == slides.length ? (1) : (slideNumber +1);
+		m = slideNumber == slides.length ? (1) : (slideNumber + 1);
 	}
-	slideSource = slideSource.replace(`${slides[slideNumber-1].image}`, `${slides[m-1].image}`);
- 	slide.setAttribute("src", slideSource);
-	slide.setAttribute("alt", slides[m-1].tagLine);
+	slideEndNumber("change", m);
 	changeDotSelection();
 }
 
